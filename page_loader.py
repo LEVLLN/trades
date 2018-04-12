@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from parameter import Parameter
+from models import URLParameter
 
 
 def make_url(param):
@@ -8,7 +8,7 @@ def make_url(param):
     if param.url_type == 'insider-trades':
         url = f'https://www.nasdaq.com/symbol/{param.stock}/{param.url_type}?page={param.page_num}'
     elif param.url_type == 'historical':
-        url = 'historical'
+        url = f'https://www.nasdaq.com/symbol/{param.stock}/{param.url_type}'
     return url
 
 
@@ -20,8 +20,8 @@ def load_page(page_url):
 # save html page to file
 
 
-def write_page_to_file(file):
-    with open('test.html', 'w') as output_file:
+def write_page_to_file(file, file_name):
+    with open(f'{file_name}.html', 'w') as output_file:
         output_file.write(file)
 
 
