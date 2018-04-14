@@ -1,14 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
-from models import URLParameter
 
 
-def make_url(param):
+def make_url(url_type,stock_code,page_num=1):
     url = ''
-    if param.url_type == 'insider-trades':
-        url = f'https://www.nasdaq.com/symbol/{param.stock}/{param.url_type}?page={param.page_num}'
-    elif param.url_type == 'historical':
-        url = f'https://www.nasdaq.com/symbol/{param.stock}/{param.url_type}'
+    if url_type == 'insider-trades':
+        url = f'https://www.nasdaq.com/symbol/{stock_code}/{url_type}?page={page_num}'
+    elif url_type == 'historical':
+        url = f'https://www.nasdaq.com/symbol/{stock_code}/{url_type}'
     return url
 
 

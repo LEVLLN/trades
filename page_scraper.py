@@ -1,6 +1,6 @@
 import page_loader
 from bs4 import BeautifulSoup
-from models import URLParameter, Stock, Price, Trade
+from models import Stock, Price, Trade
 from datetime import datetime
 
 HEADER_POSTFIX = 'Common Stock Historical Stock Prices'
@@ -69,11 +69,8 @@ def save_trades(element_list,stock_code):
 # trades_page = page_loader.load_page(url)
 # scrape_trades_page(trades_page)
 
-
-param = URLParameter()
-param.stock = 'aapl'
-param.page_num = 1
-param.url_type = 'historical'
-url = page_loader.make_url(param)
+url = page_loader.make_url('insider-trades','aapl')
+print(url)
 historical_page = page_loader.load_page(url)
-el = scrape_prices(historical_page)
+el = scrape_insider_trades(historical_page)
+# save_prices(el,'aapl')
