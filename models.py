@@ -39,13 +39,14 @@ class Price(Model):
     high = DoubleField(default=0.0)
     low = DoubleField(default=0.0)
     close = DoubleField(default=0.0)
+    volume = DoubleField(default=0.0)
 
     class Meta:
         database = db
 
 
 class Trade(Model):
-    pass
+    owner_type = CharField(choices=["direct", "indirect"])
 
     class Meta:
         database = db
@@ -60,9 +61,4 @@ class URLParameter(object):
 
 
 def __create_tables__():
-    db.createп_tables([Stock, Price])
-
-
-# stock = Stock()
-# # stock.create_stock('aapl', 'Apple inc.')
-# print(stock.get_stock_by_code('aapl').code)
+    db.create_tables([Stock, Price, Trade])
