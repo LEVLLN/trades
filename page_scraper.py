@@ -1,9 +1,8 @@
 import page_loader
 from bs4 import BeautifulSoup
-from models import Stock, Price, Trade
-from datetime import datetime
 
-HEADER_POSTFIX = 'Common Stock Historical Stock Prices'
+FIRST_HEADER_POSTFIX = 'Common Stock Real Time Stock Quotes'
+SECOND_HEADER_POSTFIX = 'Capital Stock Real Time Stock Quotes'
 TABLE_HEADER_INDEX = 0
 
 
@@ -18,7 +17,8 @@ def scrape_insider_trades(page):
 def scrape_stock_name(page):
     soup = BeautifulSoup(page, 'html.parser')
     header = soup.find('h1').text
-    stock_name = header.replace(HEADER_POSTFIX, '').strip(' \t\n\r')
+    stock_name = header.replace(FIRST_HEADER_POSTFIX, '').strip(' \t\n\r')
+    stock_name = stock_name.replace(SECOND_HEADER_POSTFIX,'').strip(' \t\n\r')
     return stock_name
 
 
@@ -37,28 +37,13 @@ def scrape_table(table_rows):
     for row in table_rows:
         subelement_list = []
         for td in row.find_all('td'):
-            if td.text.strip() != '':
-                subelement_list.append(td.text.strip())
+            subelement_list.append(td.text.strip())
         element_list.append(subelement_list)
     return element_list
 
-def save_prices(element_list,stock_code):
-    for element in element_list:
-       price = Price()
-       price.stock = stock_code
-       price.date = datetime.date(datetime.strptime(element[0],'%m/%d/%Y'))
-       price.open = element[1]
-       price.high = element[2]
-       price.low = element[3]
-       price.close = element[4]
-       volume = element[5].replace(',','')
-       price.volume = volume
-       price.save()
 
-def save_trades(element_list,stock_code):
-    trades_list = []
-    for element in element_list:
-        stock = Stock()
+
+
 
 # Scrape insider-trades page
 # param = URLParameter()
@@ -69,8 +54,24 @@ def save_trades(element_list,stock_code):
 # trades_page = page_loader.load_page(url)
 # scrape_trades_page(trades_page)
 
-url = page_loader.make_url('insider-trades','aapl')
-print(url)
-historical_page = page_loader.load_page(url)
-el = scrape_insider_trades(historical_page)
-# save_prices(el,'aapl')
+# url = page_loader.make_url('insider-trades','aapl')
+# print(url)
+# historical_page = page_loader.load_page(url)
+# el = scrape_insider_trades(historical_page)
+# print(el)
+
+# for stock_code in generator.get_tickers_from_file():
+#     i = 1
+#     stock = Stock()
+#     stock.code = stock_code
+#     url_stock = page_loader.make_url('main', stock_code)
+#     page_stock = page_loader.load_page(url_stock)
+#     stock.name = scrape_stock_name(page_stock)
+#     stock.save()
+
+#     while i <= 10:
+#         url = page_loader.make_url('insider-trades', stock_code)
+#         historical_page = page_loader.load_page(url)
+#         el = scrape_insider_trades(historical_page)
+#         save_trades(el, stock_code)
+#         i = i+1

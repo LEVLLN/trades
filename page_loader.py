@@ -8,6 +8,8 @@ def make_url(url_type,stock_code,page_num=1):
         url = f'https://www.nasdaq.com/symbol/{stock_code}/{url_type}?page={page_num}'
     elif url_type == 'historical':
         url = f'https://www.nasdaq.com/symbol/{stock_code}/{url_type}'
+    elif url_type == 'main':
+        url = f'https://www.nasdaq.com/symbol/{stock_code}/real-time'
     return url
 
 

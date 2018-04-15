@@ -52,9 +52,9 @@ class Trade(Model):
     last_date = DateField()
     transaction_type = CharField()
     owner_type = CharField(choices=["direct", "indirect"])
-    shares_traded = DoubleField(default=0.0)
+    shares_traded = IntegerField(default=0.0)
     last_price = DoubleField(default=0.0)
-    shares_held = DoubleField(default=0.0)
+    shares_held = IntegerField(default=0.0)
 
     class Meta:
         database = db
@@ -63,5 +63,3 @@ class Trade(Model):
 
 def __create_tables__():
     db.create_tables([Stock, Price, Trade])
-
-__create_tables__()
