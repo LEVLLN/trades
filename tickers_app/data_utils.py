@@ -1,8 +1,11 @@
-from models import Trade, Stock, Price
-from models import Stock, Price, Trade
 from datetime import datetime
+from models import Trade, Stock, Price, DB
 from page_loader import *
 from page_scraper import *
+from libs.log_writer import *
+
+APP_NAME = 'data_utils'
+LOG_FILE_PATH = f'logs/{APP_NAME}.log'
 
 
 def save_trades(element_list, stock_code):
@@ -29,17 +32,17 @@ def save_trades(element_list, stock_code):
             shares_held = 0
         trade.shares_held = shares_held
         trade.save()
+        LOGGER.info(
+            f'Trade object of {stock_code} on last date {element[2]} saved in db')
 
 
-def save_stock(stock_code):
-    stock = Stock()
-    stock_url = make_url('main', stock_code)
-    stock_page = load_page(stock_url)
-    stock_name = scrape_stock_name(stock_page)
-    stock.name = stock_name
-    stock.code = stock_code
-    stock.save(force_insert=False)
-    return stock
+def save_stock(stock):
+    try:
+        stock.save(force_insert=True)
+    except Exception as e:
+        LOGGER.error(f'{stock.code} is allready exist: {e}')
+        DB.rollback()
+    LOGGER.info(f'Stock object: {stock.code} of {stock.name} saved in db')
 
 
 def save_prices(element_list, stock_code):
@@ -56,4 +59,10 @@ def save_prices(element_list, stock_code):
         if volume == '':
             volume = 0
         price.volume = volume
-        price.save()
+        try:
+            price.save()
+            LOGGER.info(f'Price object: {price.stock} in date: {price.date} saved in db')
+        except Exception as e:
+            LOGGER.error(f'{price.code} in date: {price.date} is not saved: {e}')
+
+LOGGER = init_logger(LOG_FILE_PATH,APP_NAME)

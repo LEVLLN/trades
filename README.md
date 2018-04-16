@@ -1,5 +1,6 @@
 # trades
-
+Trades app can scrapping insider-trades, historical and tickers data from [nasdaq web-site](htttp://www.nasdaq.com/symbols) and save this in DataBase.
+Trades app is MVC web-app, you can get data about tickers, insider-trades and prices of tickers
 # postgreSQL driver for connect to PostgreSQL
 pip install psycopg2-binary
 pip install psycopg2

@@ -2,3 +2,5 @@
 test.html
 /__pycache__
 /.vscode
+*.log
+__pycache__
