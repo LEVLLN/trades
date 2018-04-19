@@ -1,13 +1,13 @@
 import datetime
+from peewee import *
 from libs.connection import *
-
 
 class Stock(Model):
     code = CharField(primary_key=True)
     name = CharField(unique=True)
 
     class Meta:
-        database = DB
+        database = db
 
 
 class Price(Model):
@@ -20,7 +20,7 @@ class Price(Model):
     volume = DoubleField(default=0.0)
 
     class Meta:
-        database = DB
+        database = db
 
 
 class Trade(Model):
@@ -35,18 +35,18 @@ class Trade(Model):
     shares_held = IntegerField(default=0.0)
 
     class Meta:
-        database = DB
+        database = db
 
 # init database tables
 
 
 def __create_tables__():
-    DB.create_tables([Stock, Price, Trade])
+    db.create_tables([Stock, Price, Trade])
 
 
 if not Trade.table_exists:
-    DB.create_tables(Trade)
+    db.create_tables(Trade)
 if not Stock.table_exists:
-    DB.create_tables(Stock)
+    db.create_tables(Stock)
 if not Price.table_exists:
-    DB.create_tables(Price)
+    db.create_tables(Price)

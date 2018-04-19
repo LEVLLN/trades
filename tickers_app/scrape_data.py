@@ -48,7 +48,7 @@ def download_stock_page(ticker):
     save_stock(stock)
 
 
-generate_data()
+
 # def task_queue(task, iterator, concurrency=10):
 #     def submit():
 #         try:

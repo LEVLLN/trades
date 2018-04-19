@@ -29,8 +29,8 @@ def scrape_stock_name(page):
         stock_name = stock_name.replace(
             SECOND_HEADER_POSTFIX, '').strip(' \t\n\r')
         return stock_name
-    except:
-        logger.info(f'Stock name value from the page can not be scrapped')
+    except Exception as scrape_exception:
+        logger.info(f'Stock name value from the page can not be scrapped: {scrape_exception}')
 
 
 def scrape_prices(page):
@@ -42,8 +42,8 @@ def scrape_prices(page):
         table_rows = table_body.find_all('tr')
         table_rows.pop(TABLE_HEADER_INDEX)
         return scrape_table(table_rows)
-    except:
-        logger.info(f'Historical from the page can not be scrapped')
+    except Exception as scrape_exception:
+        logger.info(f'Historical from the page can not be scrapped: {scrape_exception}')
 
 
 def scrape_table(table_rows):
@@ -55,8 +55,8 @@ def scrape_table(table_rows):
                 subelement_list.append(td.text.strip())
             element_list.append(subelement_list)
         return element_list
-    except:
-        logger.info(f'Data from table of the page can not be scrapped')
+    except Exception as scrape_exception:
+        logger.info(f'Data from table of the page can not be scrapped: {scrape_exception}')
 
 
 logger = init_logger(LOG_FILE_PATH, APP_NAME)

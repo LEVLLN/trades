@@ -1,0 +1,6 @@
+<!doctype html>
+<title>All tickers in db</title>
+<h1>We have some tickers for you ;)</h1>
+{% for stock in stocks %} 
+    <a href="/{{stock.code}}">{{stock.name}}</a> <br> 
+{% endfor %}

@@ -1,5 +1,5 @@
 from datetime import datetime
-from models import Trade, Stock, Price, DB
+from models import Trade, Stock, Price, db
 from page_loader import *
 from page_scraper import *
 from libs.log_writer import *
@@ -39,9 +39,9 @@ def save_trades(element_list, stock_code):
 def save_stock(stock):
     try:
         stock.save(force_insert=True)
-    except Exception as e:
-        LOGGER.error(f'{stock.code} is allready exist: {e}')
-        DB.rollback()
+    except Exception as exception:
+        LOGGER.error(f'{stock.code} is allready exist: {exception}')
+        db.rollback()
     LOGGER.info(f'Stock object: {stock.code} of {stock.name} saved in db')
 
 
@@ -62,7 +62,7 @@ def save_prices(element_list, stock_code):
         try:
             price.save()
             LOGGER.info(f'Price object: {price.stock} in date: {price.date} saved in db')
-        except Exception as e:
-            LOGGER.error(f'{price.code} in date: {price.date} is not saved: {e}')
+        except Exception as exception:
+            LOGGER.error(f'{price.code} in date: {price.date} is not saved: {exception}')
 
 LOGGER = init_logger(LOG_FILE_PATH,APP_NAME)
