@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<title>{{ticker.code}} insider trades</title>
+<head>
+        <link href="{{ url_for("static", filename="css/bootstrap.min.css") }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Insider</th>
+                    <th>Relation</th>
+                    <th>Last Date</th>
+                    <th>Transaction type</th>
+                    <th>Owner type</th>
+                    <th>Shares traded</th>
+                    <th>Last price</th>
+                    <th>Shares held</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trade in insider %}
+                <tr>
+                    <td>{{trade.insider}}</td>
+                    <td>{{trade.relation}}</td>
+                    <td>{{trade.last_date}}</td>
+                    <td>{{trade.transaction_type}}</td>
+                    <td>{{trade.owner_type}}</td>
+                    <td>{{trade.shares_traded}}</td>
+                    <td>{{trade.last_price}}</td>
+                    <td>{{trade.shares_held}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -13,7 +13,7 @@ def get_tickers_from_file():
     return tickers
 
 
-def generate_data():
+def scrape_data():
     tickers = get_tickers_from_file()
     for ticker in tickers:
         download_stock_page(ticker)

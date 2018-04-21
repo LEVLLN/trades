@@ -32,7 +32,7 @@ def save_trades(element_list, stock_code):
             shares_held = 0
         trade.shares_held = shares_held
         trade.save()
-        LOGGER.info(
+        logger.info(
             f'Trade object of {stock_code} on last date {element[2]} saved in db')
 
 
@@ -40,9 +40,9 @@ def save_stock(stock):
     try:
         stock.save(force_insert=True)
     except Exception as exception:
-        LOGGER.error(f'{stock.code} is allready exist: {exception}')
+        logger.error(f'{stock.code} is allready exist: {exception}')
         db.rollback()
-    LOGGER.info(f'Stock object: {stock.code} of {stock.name} saved in db')
+    logger.info(f'Stock object: {stock.code} of {stock.name} saved in db')
 
 
 def save_prices(element_list, stock_code):
@@ -61,8 +61,11 @@ def save_prices(element_list, stock_code):
         price.volume = volume
         try:
             price.save()
-            LOGGER.info(f'Price object: {price.stock} in date: {price.date} saved in db')
+            logger.info(
+                f'Price object: {price.stock} in date: {price.date} saved in db')
         except Exception as exception:
-            LOGGER.error(f'{price.code} in date: {price.date} is not saved: {exception}')
+            logger.error(
+                f'{price.code} in date: {price.date} is not saved: {exception}')
 
-LOGGER = init_logger(LOG_FILE_PATH,APP_NAME)
+
+logger = init_logger(LOG_FILE_PATH, APP_NAME)

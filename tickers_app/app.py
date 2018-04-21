@@ -6,6 +6,7 @@ from models import Stock, Price, Trade
 PORT = 8080
 app = Flask(__name__)
 
+
 @app.route('/')
 def main():
     stock_list = Stock().select()
@@ -17,6 +18,14 @@ def ticker_historical(ticker_code):
     stock = Stock().get(Stock.code == ticker_code.upper())
     historical = Price.select().where(Price.stock == ticker_code.upper())
     return render_template('historical.html', prices=historical, ticker=stock)
+
+
+@app.route('/<ticker_code>/insider')
+def get_ticker_trades(ticker_code):
+    stock = Stock.get(Stock.code == ticker_code.upper())
+    trades = Trade.select().where(Trade.stock == ticker_code.upper())
+    print(trades)
+    return render_template('insiders.html', insider=trades, ticker=stock)
 
 
 if __name__ == "__main__":

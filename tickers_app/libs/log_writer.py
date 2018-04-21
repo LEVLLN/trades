@@ -1,5 +1,6 @@
 import logging
 
+
 def init_logger(log_file_path, app_name):
     logger = logging.getLogger(app_name)
     logger.setLevel(logging.INFO)
