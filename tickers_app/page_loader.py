@@ -2,19 +2,23 @@ import requests
 from bs4 import BeautifulSoup
 from libs.log_writer import *
 
-SITE_URL = 'https://www.nasdaq.com/symbol'
+SITE_URL = ('https://www.nasdaq.com/symbol',
+            'https://www.nasdaq.com/quotes/insiders')
 
 APP_NAME = 'scrape_data'
 LOG_FILE_PATH = f'logs/{APP_NAME}.log'
 
-def make_url(url_type, stock_code, page_num=1):
+
+def make_url(url_type, stock_code='', insider_code='', page_num=1):
     url = ''
     if url_type == 'insider-trades':
-        url = f'{SITE_URL}/{stock_code}/{url_type}?page={page_num}'
+        url = f'{SITE_URL[0]}/{stock_code}/{url_type}?page={page_num}'
     elif url_type == 'historical':
-        url = f'{SITE_URL}/{stock_code}/{url_type}'
+        url = f'{SITE_URL[0]}/{stock_code}/{url_type}'
     elif url_type == 'main':
-        url = f'{SITE_URL}/{stock_code}/real-time'
+        url = f'{SITE_URL[0]}/{stock_code}/real-time?page={page_num}'
+    elif url_type == 'individual-trades':
+        url = f'{SITE_URL[1]}/{insider_code}'
     return url
 
 
@@ -31,4 +35,5 @@ def write_page_to_file(file, file_name):
     with open(f'{file_name}.html', 'w') as output_file:
         output_file.write(file)
 
-logger = init_logger(LOG_FILE_PATH,APP_NAME)
+
+logger = init_logger(LOG_FILE_PATH, APP_NAME)

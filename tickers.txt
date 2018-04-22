@@ -1,4 +1,1 @@
-AAPL
-CVX
-AVHI
-GOOG
+ABM

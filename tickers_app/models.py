@@ -2,6 +2,7 @@ import datetime
 from peewee import *
 from libs.connection import *
 
+
 class Stock(Model):
     code = CharField(primary_key=True)
     name = CharField(unique=True)
@@ -23,9 +24,17 @@ class Price(Model):
         database = db
 
 
+class Insider(Model):
+    code = CharField(primary_key=True)
+    name = CharField(unique=True)
+
+    class Meta:
+        database = db
+
+
 class Trade(Model):
     stock = ForeignKeyField(Stock, backref='trades')
-    insider = CharField()
+    insider = ForeignKeyField(Insider, backref='trades')
     relation = CharField()
     last_date = DateField()
     transaction_type = CharField()
@@ -37,12 +46,30 @@ class Trade(Model):
     class Meta:
         database = db
 
+
 # init database tables
 
 
-def __create_tables__():
-    db.create_tables([Stock, Price, Trade])
+class IndividualInsiderTrades(Model):
+    insider = ForeignKeyField(Insider, backref='trades')
+    company = ForeignKeyField(Stock, backref='tickers')
+    relation = CharField()
+    last_date = DateField()
+    tran = CharField()
+    owner_type = CharField()
+    shares_traded = DoubleField()
+    last_price = DoubleField(default=0.0)
+    shares_held = IntegerField(default=0.0)
 
+    class Meta:
+        database = db
+
+
+def __create_tables__():
+    db.create_tables([Stock, Price, Trade, Insider, IndividualInsiderTrades])
+
+
+__create_tables__()
 
 if not Trade.table_exists:
     db.create_tables(Trade)
@@ -50,3 +77,5 @@ if not Stock.table_exists:
     db.create_tables(Stock)
 if not Price.table_exists:
     db.create_tables(Price)
+if not Insider.table_exists:
+    db.create_tables(Insider)

@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<title>{{individual_insider.name}} Individual Trades</title>
+
+<head>
+        <link href="{{ url_for("static", filename="css/bootstrap.min.css") }}" rel="stylesheet">
+</head>
+
+<body>
+        <div class="container">
+                <h1 class="center">{{individual_insider.name}} <small class="text-muted font-monospace">
+                    Individual Trades
+                </small></h1>
+        <div class='container'>
+                <a href="/{{ticker.code}}/insider" class="mx-auto">Back to trades of {{ticker.name}}</a>
+        </div>
+    
+            <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Company</th>
+                    <th>Relation</th>
+                    <th>Last_date</th>
+                    <th>Tran</th>
+                    <th>Owner Type</th>
+                    <th>Shares Traded</th>
+                    <th>Last Price</th>
+                    <th>Shares Held</th>
+                </tr>
+            </thead>
+                <tbody>
+                    {% for trade in trades %}
+                    <tr>
+                        <td><a href="/{{trade.company.code}}/insider">{{trade.company.name}}</a></td>
+                        <td>{{trade.relation}}</td>
+                        <td>{{trade.last_date}}</td>
+                        <td>{{trade.tran}}</td>
+                        <td>{{trade.owner_type}}</td>
+                        <td>{{trade.shares_traded}}</td>
+                        <td>{{trade.last_price}}</td>
+                        <td>{{trade.shares_held}}</td>
+                    </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
