@@ -1,6 +1,6 @@
 from datetime import datetime
 from models import Trade, Stock, Price, Insider, IndividualInsiderTrades, db
-from page_loader import *
+from page_loader import make_url,load_page
 from page_scraper import *
 from libs.log_writer import *
 

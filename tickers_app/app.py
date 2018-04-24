@@ -1,13 +1,11 @@
-from flask import Flask, Response, jsonify
+from flask import Flask
 from flask import render_template, request
-from models import Stock, Price, Trade, Insider, IndividualInsiderTrades
-from api import model_api
-from datetime import datetime
+from api import MODEL_API
 import data_utils
 
 PORT = 8080
 app = Flask(__name__)
-app.register_blueprint(model_api)
+app.register_blueprint(MODEL_API)
 
 
 @app.route('/')

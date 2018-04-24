@@ -1,8 +1,9 @@
 from data_utils import *
-from concurrent.futures import ThreadPoolExecutor
+from multiprocessing.dummy import Pool as ThreadPool
 
 TICKERS_FILE_NAME = 'tickers.txt'
 MAX_PAGE_COUNT = 10
+N_THEAD = 4
 
 
 def get_tickers_from_file():
@@ -13,12 +14,18 @@ def get_tickers_from_file():
     return tickers
 
 
-def scrape_data():
+def scrape_data(n_thead):
+    """Parse processing in n theads for stock and historical where N thead count initialized in N_THEAD param"""
     tickers = get_tickers_from_file()
+    pool = ThreadPool(n_thead)
+    results = pool.map(download_stock_page, tickers)
+    results = pool.map(download_historical_page, tickers)
+    pool.close()
+    pool.join()
+    print(results)
+    i = 1
+    """Parse processing without multi-theads"""
     for ticker in tickers:
-        download_stock_page(ticker)
-        download_historical_page(ticker)
-        i = 1
         while i <= MAX_PAGE_COUNT:
             download_trades_page(ticker, i)
             i = i + 1
@@ -56,6 +63,7 @@ def download_stock_page(ticker):
     stock.name = stock_name
     stock.code = ticker
     save_stock(stock)
+    return ticker
 
 
 def scrape_detail_data():
@@ -64,23 +72,5 @@ def scrape_detail_data():
         print(insider.code)
         download_individual_trades_page(insider.code)
 
-# scrape_data()
-
-
-# scrape_detail_data()
-
-
-# def task_queue(task, iterator, concurrency=10):
-#     def submit():
-#         try:
-#            obj = next(iterator)
-#         except StopIteration:
-#             return
-#     stats['delayed'] += 1
-#     future = executor.submit(task, obj)
-#     future.add_done_callback(upload_done)
-#     def upload_done(future):
-#        submit()
-#        stats['delayed'] -= 1
-#        stats['done'] += 1
-# generate_data()
+"""Running scrapping data"""
+scrape_data(N_THEAD)

@@ -1,6 +1,6 @@
 import datetime
 from peewee import *
-from libs.connection import *
+from libs.connection import db
 
 
 class Stock(Model):
