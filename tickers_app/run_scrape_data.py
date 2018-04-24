@@ -18,17 +18,12 @@ def scrape_data(n_thead):
     """Parse processing in n theads for stock and historical where N thead count initialized in N_THEAD param"""
     tickers = get_tickers_from_file()
     pool = ThreadPool(n_thead)
-    results = pool.map(download_stock_page, tickers)
-    results = pool.map(download_historical_page, tickers)
+    results_ticker = pool.map(download_stock_page, tickers)
+    results_historical = pool.map(download_historical_page, tickers)
     pool.close()
     pool.join()
-    print(results)
-    i = 1
     """Parse processing without multi-theads"""
-    for ticker in tickers:
-        while i <= MAX_PAGE_COUNT:
-            download_trades_page(ticker, i)
-            i = i + 1
+    create_trades(tickers)
 
 
 def download_trades_page(ticker, page_num):
@@ -37,6 +32,14 @@ def download_trades_page(ticker, page_num):
     trades_list = scrape_insider_trades(trade_page)
     insider_code = save_insider(trades_list).code
     save_trades(trades_list, ticker, insider_code)
+
+
+def create_trades(tickers):
+    i = 1
+    for ticker in tickers:
+        while i <= MAX_PAGE_COUNT:
+            download_trades_page(ticker, i)
+            i = i + 1
 
 
 def download_historical_page(ticker):
@@ -72,5 +75,8 @@ def scrape_detail_data():
         print(insider.code)
         download_individual_trades_page(insider.code)
 
+
 """Running scrapping data"""
 scrape_data(N_THEAD)
+"""Running scrapping detail insiders data"""
+scrape_detail_data()

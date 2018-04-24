@@ -68,14 +68,4 @@ class IndividualInsiderTrades(Model):
 def __create_tables__():
     db.create_tables([Stock, Price, Trade, Insider, IndividualInsiderTrades])
 
-
 __create_tables__()
-
-if not Trade.table_exists:
-    db.create_tables(Trade)
-if not Stock.table_exists:
-    db.create_tables(Stock)
-if not Price.table_exists:
-    db.create_tables(Price)
-if not Insider.table_exists:
-    db.create_tables(Insider)
