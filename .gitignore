@@ -4,3 +4,4 @@ test.html
 /.vscode
 *.log
 __pycache__
+*.sql

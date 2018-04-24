@@ -67,7 +67,7 @@ def scrape_detail_data():
 # scrape_data()
 
 
-scrape_detail_data()
+# scrape_detail_data()
 
 
 # def task_queue(task, iterator, concurrency=10):
