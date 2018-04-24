@@ -16,6 +16,13 @@
 <a href="/{{ticker.code}}/insider" class="mx-auto">Go to Insider trades of {{ticker.name}}</a>
 <br>
 <a href="/" class="mx-auto">Back to tickers</a>
+<form  action="/{{ticker.code}}/analytics" method="GET">
+    <label for="from">Date From: </label>
+    <input type="date" name="date-from" id="from">
+    <label for="to">Date To: </label>
+    <input type="date" name="date-to" id="to">
+    <button type="submit">Get Analytics!</button>
+</form>
 </div>
 <table class="table table-striped table-hover table-bordered">
 <thead>
